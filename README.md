@@ -1,6 +1,12 @@
 # incident-dashboard
-Features - 
 
+Code Best Practices - 
+1. Atomic design pattern (Organisms, Molecules & Atoms)
+2. Memoization (useMemo) wherever required
+
+
+
+Features - 
 ## Pagination
 ![image](https://github.com/user-attachments/assets/e4c9dbe6-551a-49ba-a2f5-d3a16047d5a5)
 
@@ -10,6 +16,3 @@ Features -
 ## Ellipsis text for overflowing headers
 ![image](https://github.com/user-attachments/assets/114bfd3a-66f3-490e-9a9b-fb048f3cad2c)
 
-Code Best Practices - 
-1. Atomic design pattern (Organisms, Molecules & Atoms)
-2. Memoization (useMemo) wherever required
