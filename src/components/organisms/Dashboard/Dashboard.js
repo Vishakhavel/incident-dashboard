@@ -1,72 +1,65 @@
-import React, { useEffect, useState } from "react";
-// import apiData from "../../../utils/data.js";
+import React, { useEffect, useMemo, useState, Fragment } from "react";
+
 import {
   CircularProgress,
   Typography,
   Container,
   Grid2 as Grid,
 } from "@mui/material";
-// import Pagination from "@mui/material/Pagination";
+import Pagination from "@mui/material/Pagination";
 
 import IncidentCard from "../../molecules/IncidentCard/";
 import Filter from "../../molecules/Filter";
 
 const Dashboard = () => {
   const [page, setPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(8);
   const [apiData, setApiData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [filteredData, setFilteredData] = useState([]);
 
-  console.log("filteredData woo", typeof filteredData, filteredData);
-
   useEffect(() => {
     const fetchData = async () => {
-      console.log("Starting data fetch..."); // Logger for start of the API call
+      try {
+        setLoading(true);
 
-      if (!apiData.length) {
-        try {
-          setLoading(true);
-          console.log("Fetching data from API..."); // Logger before fetch starts
+        // const incidentApiData = await fetch(`${process.env.API_URL}`);
+        const incidentApiData = await fetch(
+          "https://rh871jxygg.execute-api.us-east-2.amazonaws.com/default/panw-incident-reponse"
+        );
 
-          // const incidentApiData = await fetch(`${process.env.API_URL}`);
-          const incidentApiData = await fetch(
-            "https://rh871jxygg.execute-api.us-east-2.amazonaws.com/default/panw-incident-reponse"
-          );
-          console.log("API response received, status:", incidentApiData); // Log the response status
-
-          if (!incidentApiData.ok) {
-            throw new Error(
-              `Error fetching data, status code: ${incidentApiData.status}`
-            );
-          }
-
-          const response = await incidentApiData.json();
-          console.log("Data successfully fetched:", typeof response); // Log the fetched data
-
-          setApiData(response);
-          setError(""); // Reset error on successful fetch
-        } catch (error) {
-          setError(error.message);
-          setApiData([]);
-          console.error("Error fetching data:", error); // Error logger
-        } finally {
-          setLoading(false);
-          console.log("Data fetch process completed."); // Logger for completion of data fetch
-        }
+        const response = await incidentApiData.json();
+        setApiData(response);
+        setError("");
+      } catch (error) {
+        setError(error.message);
+        setApiData([]);
+        console.error("Error fetching data:", error); // Error logger
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchData();
-  }, [apiData.length]); // Ensuring effect runs when data length changes
+  }, []);
+  // empty dependency array to ensure the effect runs only once
 
   useEffect(() => {
     setFilteredData(apiData);
   }, [apiData]);
 
+  const paginatedData = useMemo(
+    () => filteredData.slice((page - 1) * rowsPerPage, page * rowsPerPage),
+    [filteredData, page, rowsPerPage]
+  );
+
+  // handler functions
+  const handlePageChange = (_, value) => {
+    setPage(value);
+  };
+
   const handleFilterChange = (filters) => {
-    // let newData = [...apiData];
     let newData = [...apiData];
 
     if (filters.createdAt) {
@@ -102,63 +95,83 @@ const Dashboard = () => {
     }
 
     setFilteredData(newData);
+    setPage(1); // Reset page to 1 when filters are applied
   };
 
   return (
-    <Grid
-      container
-      rowSpacing={1}
-      columnSpacing={3}
-      className="container mx-auto flex flex-col p-4"
-    >
-      {/* header */}
-      <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12 }}>
-        <Container className="flex justify-center mb-4">
-          <Typography variant="h2">Incident report</Typography>
-        </Container>
-      </Grid>
-      {/* filter component to filter the incidents based on the API fields */}
-      <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12 }}>
-        <Container className="flex justify-center mb-4">
-          <Filter onFilterChange={handleFilterChange} />
-        </Container>
-      </Grid>
-      {/* the incident cards */}
-      <Grid container>
-        {/* {(data.slice(0, rowsPerPage) || []).map((incidentData) => ( */}
-        {(filteredData || []).map((incidentData) => (
-          // <div key={incidentData.id} className="w-full">
-          <Grid
-            item
-            size={{ xs: 12, sm: 12, md: 4, lg: 3 }}
-            style={{ flexGrow: 1 }}
-          >
-            <IncidentCard incidentData={incidentData} />
+    <Fragment>
+      {/* {!error && !loading && ( */}
+      {!loading && (
+        <Grid
+          container
+          rowSpacing={1}
+          columnSpacing={3}
+          className="container mx-auto flex flex-col p-4"
+        >
+          {/* header */}
+          <Grid item size={{ xs: 12, sm: 12, md: 12, lg: 12 }}>
+            <Container className="flex justify-center mb-4">
+              <Typography variant="h2">Incident report</Typography>
+            </Container>
           </Grid>
-        ))}
-      </Grid>
+          {/* filter component to filter the incidents based on the API fields */}
+          <Grid item size={{ xs: 12, sm: 12, md: 12, lg: 12 }}>
+            <Container className="flex justify-center mb-4">
+              <Filter onFilterChange={handleFilterChange} />
+            </Container>
+          </Grid>
+          {/* the incident cards */}
+          <Grid container className="container mx-auto flex flex-col p-4">
+            {(paginatedData || []).map((incidentData) => (
+              <Grid item size={{ xs: 12, sm: 12, md: 4, lg: 3 }}>
+                <IncidentCard incidentData={incidentData} />
+              </Grid>
+            ))}
+          </Grid>
+
+          {/* API call finished, no error, but no data found */}
+          {!error && !loading && filteredData.length === 0 && (
+            <Grid
+              size={{ xs: 12, sm: 12, md: 12, lg: 12 }}
+              className="flex justify-center mb-4"
+            >
+              <Typography variant="h6" color="textSecondary">
+                No data found
+              </Typography>
+            </Grid>
+          )}
+
+          {/* API call finished, but there was an error */}
+          {error && !loading && filteredData.length === 0 && (
+            <Grid
+              size={{ xs: 12, sm: 12, md: 12, lg: 12 }}
+              className="flex justify-center mb-4"
+            >
+              <Typography variant="h6" color="textSecondary">
+                Error fetching API - {error}
+              </Typography>
+            </Grid>
+          )}
+
+          <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12 }}>
+            <Container className="flex justify-center mb-4">
+              <Pagination
+                count={Math.ceil(filteredData.length / rowsPerPage)}
+                page={page}
+                onChange={handlePageChange}
+                color="primary"
+              />
+            </Container>
+          </Grid>
+        </Grid>
+      )}
+
       {loading && (
-        <Grid className="flex justify-center items-center">
+        <Grid className="flex justify-center items-center w-full h-full absolute">
           <CircularProgress />
         </Grid>
       )}
-      {/* //TODO: center the NO Data Found text */}
-      {!error && !loading && filteredData.length === 0 && (
-        <Grid className="flex justify-center items-center">
-          <Typography variant="h6" color="textSecondary">
-            No data found
-          </Typography>
-        </Grid>
-      )}
-      {error && (
-        <Grid className="flex justify-center items-center">
-          <Typography variant="h6" color="textSecondary">
-            {error}
-          </Typography>
-        </Grid>
-      )}
-      {/* <ManualPagination /> */}
-    </Grid>
+    </Fragment>
   );
 };
 

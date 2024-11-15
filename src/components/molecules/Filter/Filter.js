@@ -13,8 +13,6 @@ const FilterComponent = ({ onFilterChange }) => {
     urgency: "All",
   });
 
-  const [selectedDate, setSelectedDate] = useState(null);
-
   // Debounced filter handler for smoother UX
   const debouncedFilterChange = debounce((newFilters) => {
     onFilterChange(newFilters);
@@ -50,8 +48,8 @@ const FilterComponent = ({ onFilterChange }) => {
       <Grid
         container
         columnSpacing={4}
-        justifyContent="center" // Centers the button horizontally
-        alignItems="center" // Centers the button vertically
+        justifyContent="center"
+        alignItems="center"
       >
         <Grid item mb={4}>
           {/* <Grid item size={{ sm: 12, md: 6, lg: 3 }}> */}
@@ -61,7 +59,6 @@ const FilterComponent = ({ onFilterChange }) => {
             value={filters.team}
             onChange={(e) => handleFilterChange("team", e.target.value)}
             sx={{ width: "200px" }}
-            // placeholder="All"
           >
             <MenuItem value="All">All</MenuItem>
             <MenuItem value="Engineering">Engineering</MenuItem>
@@ -118,9 +115,9 @@ const FilterComponent = ({ onFilterChange }) => {
       <Grid
         container
         size={12}
-        justifyContent="center" // Centers the button horizontally
-        alignItems="center" // Centers the button vertically
-        style={{ minHeight: "100px" }} // Ensure there's enough height to center vertically
+        justifyContent="center"
+        alignItems="center"
+        style={{ minHeight: "100px" }}
       >
         <Grid item>
           <Button

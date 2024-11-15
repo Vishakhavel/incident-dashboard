@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Tooltip, Typography } from "@mui/material";
 
-const HoverText = ({
+const EllipsisText = ({
   text,
   limit = 22,
   variant = "h5",
@@ -13,7 +13,7 @@ const HoverText = ({
   sx = {},
 }) => {
   // Determine if the text length exceeds the specified character limit
-  const isTextLong = text.length > limit;
+  const isTextLong = useMemo(() => text.length > limit, [text, limit]);
 
   return (
     <Tooltip
@@ -30,7 +30,7 @@ const HoverText = ({
           overflow: "hidden",
           textOverflow: "ellipsis",
           maxWidth: `${limit}ch`,
-          ...sx, // Allow additional styling from props
+          ...sx,
         }}
       >
         {text}
@@ -39,4 +39,4 @@ const HoverText = ({
   );
 };
 
-export default HoverText;
+export default EllipsisText;

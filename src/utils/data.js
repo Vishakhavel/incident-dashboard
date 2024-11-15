@@ -2407,7 +2407,7 @@ const data = [
     html_url: "https://subdomain.pagerduty.com/incidents/PT4KHLK30",
     incident_number: 1264,
     title: "The server is on fire.",
-    created_at: "2015-10-06T21:30:72Z",
+    created_at: "2015-10-06T21:40:53Z",
     updated_at: "2015-10-06T21:40:53Z",
     status: "triggered",
     incident_key: "baf7cf21b1da41b4b0221008339ff30",

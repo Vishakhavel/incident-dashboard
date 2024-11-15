@@ -1,3 +1,4 @@
+// file to create incidents
 const fs = require("fs");
 
 const incidents = Array.from({ length: 50 }, (_, i) => ({

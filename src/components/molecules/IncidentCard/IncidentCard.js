@@ -8,17 +8,12 @@ import {
   Box,
   Snackbar,
   Alert,
-  // Chip,
 } from "@mui/material";
-import StatusChip from "../../atoms/StatusChip";
-import HoverText from "../../atoms/HoverText";
-
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import TeamChip from "../../atoms/TeamChip";
 
-import { formatDate } from "../../../utils/utilityFunctions";
+import StatusChip from "../../atoms/StatusChip";
+import EllipsisText from "../../atoms/EllipsisText";
 
-// destructured data with fallback values for missing data
 const IncidentCard = ({
   incidentData: {
     id = "",
@@ -34,18 +29,10 @@ const IncidentCard = ({
     html_url = "",
   },
 }) => {
-  // Format the dates to a readable format
-
-  // const formattedCreatedAt = new Date(created_at).toLocaleString();
-  // const formattedUpdatedAt = updated_at
-  //   ? new Date(updated_at).toLocaleString()
-  //   : "Not Updated";
-
   const [clicked, setClicked] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   // Memoization to avoid redundant calls to create new Date objects every time.
-
   const formattedCreatedAt = useMemo(
     () => new Date(created_at).toLocaleString(),
     [created_at]
@@ -57,8 +44,8 @@ const IncidentCard = ({
   );
 
   const handleCopyClick = () => {
-    navigator.clipboard.writeText(id); // Copy to clipboard
-    setClicked(true); // Trigger animation
+    navigator.clipboard.writeText(id); // copy to clipboard
+    setClicked(true);
     setOpenSnackbar(true); // Show popup
     setTimeout(() => setClicked(false), 300); // Reset animation after 300ms
   };
@@ -79,11 +66,9 @@ const IncidentCard = ({
       }}
     >
       <CardContent>
-        {/* Hoverable Title */}
-
         <Grid item mt={2} mb={2} className="m-4">
           <Box display="flex" justifyContent="space-between" width="100%">
-            <HoverText text={title} />
+            <EllipsisText text={title} />
             <ContentCopyIcon
               onClick={handleCopyClick}
               sx={{
@@ -111,14 +96,12 @@ const IncidentCard = ({
           </Snackbar>
         </Grid>
 
-        {/* <HoverText text={title} /> */}
-
         {/* Summary */}
         <Typography variant="body2" color="text.secondary" paragraph>
           {summary}
         </Typography>
 
-        {/* StatusChip */}
+        {/* Status */}
         <Grid container justifyContent="center" mt={2} mb={2}>
           <Grid item>
             <StatusChip status={status} />
@@ -129,7 +112,6 @@ const IncidentCard = ({
           <Box display="flex" justifyContent="space-between" width="100%">
             <Typography variant="body2">
               <strong>Priority:</strong>
-              {/* {priority?.summary || "N/A"} */}
 
               <Typography textTransform={"capitalize"} component="body1">
                 {" "}
@@ -137,7 +119,7 @@ const IncidentCard = ({
               </Typography>
             </Typography>
             <Typography variant="body2">
-              <strong>Urgency:</strong> {/* // TODO: text transform */}
+              <strong>Urgency:</strong>
               <Typography textTransform={"capitalize"} component="body1">
                 {" "}
                 {urgency}
@@ -151,8 +133,6 @@ const IncidentCard = ({
           <Grid item>
             <Typography variant="body2">
               <strong>Triage:</strong> {teams?.[0]?.summary || "N/A"}
-              {/* <strong>Team:</strong>{" "} */}
-              {/* <TeamChip team={teams?.[0]?.summary} /> */}
             </Typography>
           </Grid>
           <Grid item>
@@ -160,14 +140,7 @@ const IncidentCard = ({
               <strong>Service:</strong> {service?.summary || "N/A"}
             </Typography>
           </Grid>
-          {/* <Grid item xs={12}> */}
 
-          {/* <Grid item>
-            <Typography variant="body2">
-              <strong>Priority:</strong> {priority?.summary || "N/A"} -{" "}
-              <strong>Urgency:</strong> {urgency}
-            </Typography>
-          </Grid> */}
           <Grid item>
             <Typography variant="body2">
               <strong>Created At:</strong> {formattedCreatedAt}
