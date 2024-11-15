@@ -23,11 +23,8 @@ const Dashboard = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-
-        // const incidentApiData = await fetch(`${process.env.API_URL}`);
-        const incidentApiData = await fetch(
-          "https://rh871jxygg.execute-api.us-east-2.amazonaws.com/default/panw-incident-reponse"
-        );
+        // make the API call
+        const incidentApiData = await fetch(`${process.env.REACT_APP_API_URL}`);
 
         const response = await incidentApiData.json();
         setApiData(response);
