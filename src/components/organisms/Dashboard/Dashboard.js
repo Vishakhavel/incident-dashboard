@@ -59,18 +59,6 @@ const Dashboard = () => {
   const handleFilterChange = (filters) => {
     let newData = [...apiData];
 
-    if (filters.createdAt) {
-      newData = newData.filter(
-        (item) => new Date(item.created_at) >= filters.createdAt
-      );
-    }
-
-    if (filters.updatedAt) {
-      newData = newData.filter(
-        (item) => new Date(item.updated_at) <= filters.updatedAt
-      );
-    }
-
     if (filters.team !== "All") {
       newData = newData.filter((item) =>
         item.teams.some((team) => team.summary === filters.team)
@@ -92,12 +80,12 @@ const Dashboard = () => {
     }
 
     setFilteredData(newData);
-    setPage(1); // Reset page to 1 when filters are applied
+    // Reset page to 1 when filters are applied
+    setPage(1);
   };
 
   return (
     <Fragment>
-      {/* {!error && !loading && ( */}
       {!loading && (
         <Grid
           container

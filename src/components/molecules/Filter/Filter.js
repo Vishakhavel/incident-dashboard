@@ -5,8 +5,6 @@ import debounce from "lodash.debounce";
 
 const FilterComponent = ({ onFilterChange }) => {
   const [filters, setFilters] = useState({
-    createdAt: null,
-    updatedAt: null,
     team: "All",
     status: "All",
     priority: "All",
@@ -32,8 +30,6 @@ const FilterComponent = ({ onFilterChange }) => {
 
   const resetFilters = () => {
     setFilters({
-      createdAt: null,
-      updatedAt: null,
       team: "All",
       status: "All",
       priority: "All",
