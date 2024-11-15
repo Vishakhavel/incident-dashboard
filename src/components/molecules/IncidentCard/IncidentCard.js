@@ -10,12 +10,13 @@ import {
   Alert,
   // Chip,
 } from "@mui/material";
-import StatusChip from "../atoms/StatusChip";
-import HoverText from "../atoms/HoverText";
+import StatusChip from "../../atoms/StatusChip";
+import HoverText from "../../atoms/HoverText";
 
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import TeamChip from "../../atoms/TeamChip";
 
-import { formatDate } from "../../utils/utilityFunctions";
+import { formatDate } from "../../../utils/utilityFunctions";
 
 // destructured data with fallback values for missing data
 const IncidentCard = ({
@@ -127,10 +128,20 @@ const IncidentCard = ({
         <Grid item mt={2} mb={2} className="m-4">
           <Box display="flex" justifyContent="space-between" width="100%">
             <Typography variant="body2">
-              <strong>Priority:</strong> {priority?.summary || "N/A"}
+              <strong>Priority:</strong>
+              {/* {priority?.summary || "N/A"} */}
+
+              <Typography textTransform={"capitalize"} component="body1">
+                {" "}
+                {priority?.summary}
+              </Typography>
             </Typography>
             <Typography variant="body2">
-              <strong>Urgency:</strong> {urgency}
+              <strong>Urgency:</strong> {/* // TODO: text transform */}
+              <Typography textTransform={"capitalize"} component="body1">
+                {" "}
+                {urgency}
+              </Typography>
             </Typography>
           </Box>
         </Grid>
@@ -139,7 +150,9 @@ const IncidentCard = ({
         <Grid container spacing={1} direction={"column"}>
           <Grid item>
             <Typography variant="body2">
-              <strong>Team:</strong> {teams?.[0]?.summary || "N/A"}
+              <strong>Triage:</strong> {teams?.[0]?.summary || "N/A"}
+              {/* <strong>Team:</strong>{" "} */}
+              {/* <TeamChip team={teams?.[0]?.summary} /> */}
             </Typography>
           </Grid>
           <Grid item>
@@ -184,78 +197,6 @@ const IncidentCard = ({
         </Grid>
       </CardContent>
     </Card>
-
-    // <Card
-    //   sx={{
-    //     margin: 2,
-    //     maxWidth: 400,
-    //     minWidth: 300,
-    //     "&:hover": {
-    //       // bgcolor: "primary.hover",
-    //       bgcolor: "#F0EAD6",
-    //       // color: "white",
-    //     },
-    //   }}
-    // >
-    //   <CardContent>
-    //     {/* <Typography
-    //       variant="h5"
-    //       component="div"
-    //       color="text.primary"
-    //       gutterBottom
-    //     > */}
-    //     {/* {title} */}
-    //     <HoverText text={title} />
-    //     {/* </Typography> */}
-
-    //     <Typography variant="body2" color="text.secondary" paragraph>
-    //       {summary}
-    //     </Typography>
-
-    //     {/* Status chip - resolved, acknowledges or triggered */}
-
-    //     <Grid container spacing={2} direction="row" alignItems="center">
-    //       <Grid size={{ xs: 12 }}>
-    //         <StatusChip status={status} />
-    //       </Grid>
-
-    //       {/* metadata about the incident - service, team, priority, urgency, created, updated */}
-
-    //       <Grid item xs={12}>
-    //         <Typography variant="body2">
-    //           <strong>Service:</strong> {service?.summary || "N/A"}
-    //         </Typography>
-    //         <Typography variant="body2">
-    //           <strong>Team:</strong> {teams?.[0]?.summary || "N/A"}
-    //         </Typography>
-    //         <Typography variant="body2">
-    //           <strong>Priority:</strong> {priority?.summary || "N/A"} -{" "}
-    //           <strong>Urgency:</strong> {urgency}
-    //         </Typography>
-    //         <Typography variant="body2">
-    //           <strong>Created At:</strong> {formattedCreatedAt}
-    //         </Typography>
-    //         <Typography variant="body2">
-    //           <strong>Updated At:</strong> {formattedUpdatedAt}
-    //         </Typography>
-    //       </Grid>
-
-    //       {/* button to view the incident */}
-    //       <Grid>
-    //         <Button
-    //           variant="contained"
-    //           color="primary"
-    //           href={html_url}
-    //           target="_blank"
-    //           rel="noopener noreferrer"
-    //           fullWidth
-    //         >
-    //           View Incident
-    //         </Button>
-    //       </Grid>
-    //     </Grid>
-    //   </CardContent>
-    // </Card>
   );
 };
 

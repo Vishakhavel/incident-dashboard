@@ -82,8 +82,7 @@ const data = [
   {
     id: "PT4KHLK1",
     type: "incident",
-    summary:
-      "[#1235] The server is on fireeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee.",
+    summary: "[#1235] The server is on fire.",
     self: "https://api.pagerduty.com/incidents/PT4KHLK1",
     html_url: "https://subdomain.pagerduty.com/incidents/PT4KHLK1",
     incident_number: 1235,

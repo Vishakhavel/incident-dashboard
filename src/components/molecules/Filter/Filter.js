@@ -1,18 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  TextField,
-  MenuItem,
-  Container,
-  Grid2 as Grid,
-  Button,
-  Select,
-} from "@mui/material";
-
-// import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-// import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
-// import DateAdapter from "@mui/lab/AdapterDateFns"; // or @mui/lab/AdapterDayjs for Day.js
-
-// import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns"; // Correct import
+import { TextField, MenuItem, Grid2 as Grid, Button } from "@mui/material";
 
 import debounce from "lodash.debounce";
 
@@ -28,7 +15,7 @@ const FilterComponent = ({ onFilterChange }) => {
 
   const [selectedDate, setSelectedDate] = useState(null);
 
-  // Debounced filter handler
+  // Debounced filter handler for smoother UX
   const debouncedFilterChange = debounce((newFilters) => {
     onFilterChange(newFilters);
   }, 300);
@@ -59,12 +46,15 @@ const FilterComponent = ({ onFilterChange }) => {
   return (
     <Grid>
       {/*  4 filter options - team , status, priority, urgency */}
+      {/* <Grid container columnSpacing={4}> */}
       <Grid
         container
         columnSpacing={4}
-        // size={{ xs: 1, sm: 1, md: 2, lg: 4, xl: 5 }}
+        justifyContent="center" // Centers the button horizontally
+        alignItems="center" // Centers the button vertically
       >
-        <Grid item>
+        <Grid item mb={4}>
+          {/* <Grid item size={{ sm: 12, md: 6, lg: 3 }}> */}
           <TextField
             label="Team"
             select
@@ -78,7 +68,8 @@ const FilterComponent = ({ onFilterChange }) => {
             <MenuItem value="Operations">Operations</MenuItem>
           </TextField>
         </Grid>
-        <Grid item>
+        <Grid item mb={4}>
+          {/* <Grid item size={{ sm: 12, md: 6, lg: 4 }}> */}
           <TextField
             sx={{ width: "200px" }}
             label="Status"
@@ -92,7 +83,8 @@ const FilterComponent = ({ onFilterChange }) => {
             <MenuItem value="resolved">Resolved</MenuItem>
           </TextField>
         </Grid>
-        <Grid item>
+        <Grid item mb={4}>
+          {/* <Grid item size={{ sm: 12, md: 6, lg: 4 }}> */}
           <TextField
             sx={{ width: "200px" }}
             label="Priority"
@@ -106,7 +98,8 @@ const FilterComponent = ({ onFilterChange }) => {
             <MenuItem value="P3">P3</MenuItem>
           </TextField>
         </Grid>
-        <Grid item>
+        <Grid item mb={4}>
+          {/* <Grid item size={{ sm: 12, md: 6, lg: 4 }}> */}
           <TextField
             sx={{ width: "200px" }}
             label="Urgency"
@@ -122,7 +115,13 @@ const FilterComponent = ({ onFilterChange }) => {
       </Grid>
 
       {/* Reset Button */}
-      <Grid container xs={12} md={4}>
+      <Grid
+        container
+        size={12}
+        justifyContent="center" // Centers the button horizontally
+        alignItems="center" // Centers the button vertically
+        style={{ minHeight: "100px" }} // Ensure there's enough height to center vertically
+      >
         <Grid item>
           <Button
             fullWidth
